@@ -1,0 +1,934 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f3f3f3;
+  overflow: hidden;
+}
+
+.background-container,
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -2;
+}
+
+.background-container {
+  /* background-image: url("/img/background.png"); */
+
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  filter: blur(1px);
+  z-index: 105;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+.menu-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    145deg,
+    #ffffff,
+    #b6dbe0
+  ); /* Thêm hiệu ứng gradient */
+  padding: 10px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 50%;
+  max-width: 425px;
+  text-align: center;
+  animation: slideIn 0.5s ease-out;
+  height: auto;
+  z-index: 110;
+}
+
+.image-container {
+  width: 240px; /* Chiều rộng của khung chứa hình ảnh */
+  height: 240px; /* Chiều cao của khung chứa hình ảnh */
+  margin: 0 auto 20px; /* Canh giữa khung chứa và tạo khoảng cách với nội dung dưới */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-image {
+  max-width: 100%; /* Hình ảnh sẽ thu nhỏ để vừa khít với chiều rộng của .image-container */
+  max-height: 100%; /* Hình ảnh sẽ thu nhỏ để vừa khít với chiều cao của .image-container */
+  object-fit: contain; /* Giữ nguyên tỷ lệ của hình ảnh và không bị cắt */
+}
+
+.house-container {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  transition: filter 0.5s ease;
+  position: relative;
+}
+
+.menu-container.active,
+.house-container.active {
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.menu-header {
+  font-size: 1.7em; /* Tăng kích thước chữ */
+  margin-bottom: 20px;
+  color: #444;
+  font-weight: 500;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng chữ */
+}
+
+.menu-description {
+  font-size: 1em; /* Tăng kích thước chữ */
+  margin-bottom: 40px;
+  color: #666;
+  line-height: 1.5; /* Tăng khoảng cách giữa các dòng */
+}
+
+.menu-buttons {
+  display: flex;
+  justify-content: space-evenly; /* Điều chỉnh khoảng cách giữa các nút */
+  width: 100%;
+}
+
+.menu-button {
+  padding: 15px 30px;
+  font-size: 1.2em;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(
+    145deg,
+    #20b8b0,
+    #0e3f5c
+  ); /* Sử dụng gradient cho nút */
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+  margin: 10px;
+}
+
+.menu-button:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(
+    145deg,
+    #eb7323,
+    #f3a530
+  ); /* Thay đổi gradient khi hover */
+}
+
+.menu-container:hover {
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.menu-button,
+.back-button,
+.light-button {
+  padding: 12px 25px;
+  font-size: 1em;
+  font-weight: bold;
+  color: white;
+  background-color: #ff6347;
+  border: none;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s, color 0.3s;
+  margin: 10px;
+}
+
+.menu-button:hover,
+.back-button:hover,
+.light-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background-color: #ff4500;
+}
+
+.menu-button:active,
+.back-button:active,
+.light-button:active {
+  transform: translateY(0);
+}
+
+.menu-button:nth-child(2) {
+  background-color: #4682b4;
+}
+
+.menu-button:nth-child(2):hover {
+  background-color: #4169e1;
+}
+
+.light-button {
+  background-color: #32cd32;
+  box-shadow: 0 0 10px #32cd32;
+  animation: neonGlow 2s infinite alternate;
+}
+
+.light-button.off {
+  background-color: #555;
+  box-shadow: 0 0 10px #555;
+}
+
+@keyframes neonGlow {
+  from {
+    box-shadow: 0 0 5px #32cd32, 0 0 10px #32cd32, 0 0 15px #32cd32;
+  }
+  to {
+    box-shadow: 0 0 15px #32cd32, 0 0 20px #32cd32, 0 0 25px #32cd32;
+  }
+}
+
+.image {
+  width: 100vw; /* Đảm bảo ảnh rộng toàn màn hình */
+  height: 100vh; /* Đảm bảo ảnh cao toàn màn hình */
+  object-fit: cover; /* Ảnh tự động điều chỉnh để phủ kín mà không làm méo ảnh */
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+  position: absolute; /* Giữ nguyên vị trí */
+  top: 0; /* Đặt ảnh ở góc trên cùng */
+  left: 0; /* Đặt ảnh ở góc trái */
+}
+
+.parameter {
+  position: absolute;
+  color: #ffd700;
+  font-size: 1em;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.temp {
+  top: 98px;
+  left: 137px;
+}
+
+.humid {
+  top: 425px;
+  left: 568px;
+}
+
+.power {
+  top: 284px;
+  left: 800px;
+}
+
+.pop-up-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Màu nền tối bên ngoài pop-up */
+  z-index: 200;
+}
+
+.pop-up-table {
+  background-color: rgba(42, 42, 42, 0.8); /* Màu nền đen với độ trong suốt */
+  border-radius: 15px; /* Bo tròn góc */
+  padding: 20px;
+  position: relative;
+  animation: fadeIn 0.5s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.3); /* Đường viền mờ */
+
+  /* Thêm hiệu ứng neon */
+  box-shadow: 0 0 10px rgba(255, 255, 204, 0.5),
+    0 0 20px rgba(255, 255, 204, 0.4), 0 0 30px rgba(255, 255, 204, 0.3),
+    0 0 40px rgba(255, 255, 204, 0.2);
+  border: 1px solid rgba(255, 255, 204, 0.5);
+}
+
+.pop-up-table::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 15px;
+  border: 2px solid rgba(255, 255, 204, 0.5); /* Viền neon bên ngoài */
+  box-shadow: 0 0 15px rgba(255, 255, 204, 0.5),
+    0 0 30px rgba(255, 255, 204, 0.4), 0 0 45px rgba(255, 255, 204, 0.3),
+    0 0 60px rgba(255, 255, 204, 0.2);
+  pointer-events: none; /* Không tương tác được */
+  z-index: -1; /* Đưa lớp này xuống dưới */
+
+  /* Hiệu ứng di chuyển đèn neon */
+  animation: neonMove 3s linear infinite;
+}
+
+@keyframes neonMove {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 255, 204, 0.5),
+      0 0 20px rgba(255, 255, 204, 0.4), 0 0 30px rgba(255, 255, 204, 0.3),
+      0 0 40px rgba(255, 255, 204, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 255, 204, 0.2),
+      0 0 30px rgba(255, 255, 204, 0.3), 0 0 20px rgba(255, 255, 204, 0.4),
+      0 0 10px rgba(255, 255, 204, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 255, 204, 0.5),
+      0 0 20px rgba(255, 255, 204, 0.4), 0 0 30px rgba(255, 255, 204, 0.3),
+      0 0 40px rgba(255, 255, 204, 0.2);
+  }
+}
+
+.pop-up-table th,
+.pop-up-table td {
+  padding: 9px 9px; /* Tăng khoảng cách giữa nội dung và viền ô */
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Đường kẻ dưới mờ */
+  line-height: 1; /* Tăng chiều cao dòng để làm cho các hàng thoáng hơn */
+}
+
+.pop-up-table th {
+  background-color: rgba(51, 51, 51, 0.5); /* Nền mờ cho tiêu đề cột */
+  color: #ffa500;
+  font-weight: bold;
+}
+
+.pop-up-table td {
+  background-color: rgba(31, 31, 31, 0.5); /* Nền mờ cho ô dữ liệu */
+  color: #fff;
+}
+
+/* Nút Close cũng được thiết kế lại */
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.3); /* Nền trong suốt */
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  border-radius: 50%; /* Bo tròn nút */
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease; /* Thêm hiệu ứng chuyển màu */
+}
+
+.close-button:hover {
+  background-color: red; /* Màu nền khi hover */
+  color: white; /* Màu chữ khi hover */
+}
+
+.input-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.input-container input {
+  width: 60%;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
+  font-size: 1em;
+  background-color: #333;
+  color: white;
+}
+
+.input-container button {
+  padding: 10px 20px;
+  background-color: #ffa500;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  color: white;
+  font-size: 1em;
+  transition: background-color 0.3s;
+}
+
+.input-container button:hover {
+  background-color: #ff8c00;
+}
+
+.text-box {
+  background-color: rgba(0, 0, 0, 0.6); /* Nền bán trong suốt */
+  padding: 10px 15px;
+  border-radius: 8px; /* Bo tròn các góc */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Bóng đổ mềm */
+  color: #ffd700; /* Màu chữ vàng */
+  font-weight: bold;
+  display: inline-block; /* Hiển thị khung xung quanh nội dung */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6); /* Đổ bóng chữ */
+  transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out; /* Thêm hiệu ứng khi hover */
+}
+
+.text-box:hover {
+  transform: scale(1.05); /* Phóng to khi hover */
+  background-color: rgba(255, 215, 0, 0.8); /* Đổi màu nền khi hover */
+  color: black; /* Đổi màu chữ khi hover */
+}
+
+.back-button-container {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100; /* Đảm bảo nút nằm trên các phần tử khác */
+}
+
+.light-button-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 100; /* Đảm bảo nút nằm trên các phần tử khác */
+}
+.h3 {
+  color: #fff;
+}
+.weather-pop-up-container {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 300;
+}
+
+.weather-pop-up {
+  background: rgba(
+    72,
+    201,
+    240,
+    0.4
+  ); /* Thay đổi giá trị alpha từ 0.15 thành 0.8 */
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%; /* Chỉnh lại width để vừa với màn hình */
+  max-width: 400px; /* Giới hạn kích thước tối đa của pop-up */
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  position: relative;
+  animation: fadeIn 0.2s ease-out;
+  border: 1px solid rgba(89, 210, 240, 0.3); /* Đường viền mờ */
+  z-index: 1000; /* Đảm bảo pop-up nằm trên các phần tử khác */
+  /* Hiệu ứng di chuyển đèn neon */
+  animation: neonMove 3s linear infinite;
+}
+
+.weather-pop-up h3 {
+  margin: 0;
+  padding-bottom: 10px;
+  font-size: 1.5em;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.weather-pop-up .weather-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.weather-pop-up .weather-temp {
+  font-size: 2.5em; /* Điều chỉnh kích thước chữ */
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.weather-pop-up .forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.weather-pop-up .forecast-day {
+  text-align: center;
+  color: #ffffff;
+  font-size: 0.9em;
+}
+
+.weather-pop-up .forecast-day img {
+  width: 40px; /* Điều chỉnh kích thước icon */
+  height: 40px;
+}
+
+.weather-pop-up .close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: white;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.weather-pop-up::before {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  border-radius: 15px;
+  color: #ffffff;
+}
+.close-button:hover {
+  background-color: red; /* Màu nền khi hover */
+  color: white; /* Màu chữ khi hover */
+}
+
+@keyframes neonMove {
+  0% {
+    box-shadow: 0 0 10px rgba(71, 163, 250, 0.5),
+      0 0 20px rgba(241, 16, 174, 0.4), 0 0 30px rgba(65, 199, 252, 0.3),
+      0 0 40px rgba(77, 205, 228, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(32, 180, 248, 0.2),
+      0 0 30px rgba(255, 20, 204, 0.3), 0 0 20px rgba(255, 255, 204, 0.4),
+      0 0 10px rgba(0, 146, 190, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(6, 142, 233, 0.5),
+      0 0 20px rgba(255, 255, 255, 0.4), 0 0 30px rgba(61, 245, 252, 0.3),
+      0 0 40px rgba(174, 24, 219, 0.2);
+  }
+}
+/* Updated CSS */
+.weather-left-container {
+  background-image: url("img/nature.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 50%; /* Điều chỉnh độ rộng */
+  padding: 20px; /* Điều chỉnh padding */
+  color: #ffffff; /* Màu chữ trắng để dễ đọc */
+  border-radius: 15px; /* Bo tròn 4 góc */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Hiệu ứng đổ bóng */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng khi di chuột */
+}
+
+.weather-left-container:hover {
+  transform: translateY(-5px); /* Nâng khối lên một chút khi di chuột */
+  box-shadow: 0 8px 20px rgba;
+}
+
+.weather-details h3,
+.weather-temp,
+.weather-back {
+  margin: 0;
+  padding: 10px 0;
+}
+
+/*_________________________Home 2 ______________________*/
+.menu-container-dropdown {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.menu-button-home2 {
+  font-size: 30px;
+  cursor: pointer;
+  background: linear-gradient(
+    145deg,
+    #20b8b0,
+    #0e3f5c
+  ); /* Same gradient as your button */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.menu-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  background: linear-gradient(145deg, #eb7323, #f3a530); /* Hover gradient */
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background: linear-gradient(145deg, #20b8b0, #0e3f5c);
+  min-width: 100px;
+  box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: rgba(255, 99, 71, 0.8); /* Hover color */
+}
+
+/*______________CSS pop-up container of home 2______*/
+/* Modal Container */
+.modal-container {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.modal-content {
+  /* background-color: white; */
+  border-radius: 12px;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Close Button */
+.close-button-menuDrop {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.close-button-menuDrop:hover {
+  background-color: red;
+  color: white;
+}
+
+/* Temperature Widget Styles */
+.widget {
+  display: flex;
+  flex-direction: row;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  padding: 15px;
+  width: 80%; /* Use viewport width */
+  height: 210px; /* Use viewport height */
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  color: #000000;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.widget:hover {
+  box-shadow: 2 14px 25px rgba(243, 112, 5, 0.2);
+}
+
+/* Adjust scaling for smaller screens */
+@media (max-width: 1200px) {
+  .widget {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 992px) {
+  .widget {
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .widget {
+    transform: scale(0.87);
+  }
+}
+
+@media (max-width: 576px) {
+  .widget {
+    transform: scale(0.79);
+  }
+
+  .temperature {
+    font-size: 50px;
+  }
+
+  .widget h2 {
+    font-size: 18px;
+  }
+}
+
+.temperature-section h2 {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ff4500;
+}
+
+.temperature-section {
+  position: relative; /* Ensure that child elements are positioned relative to this container */
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.widget h2 {
+  font-size: 28px;
+  color: #130f0f;
+  display: flex;
+  align-items: center;
+  position: absolute; /* Absolute position within the parent container */
+  top: 10px; /* Adjust the top distance */
+  left: 10px; /* Adjust the left distance */
+  margin: 0; /* Ensure no extra margin */
+  z-index: 10; /* Ensure it's on top */
+}
+
+.icon-temp {
+  width: 34px;
+  height: 34px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.temperature {
+  font-size: 60px;
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+.temperature-value {
+  font-size: 60px;
+  font-weight: bold;
+  margin-left: 0; /* Đảm bảo không có khoảng cách trái cho giá trị */
+  color: #252525;
+}
+
+.temp-change {
+  font-size: 16px;
+  color: #252525;
+  margin-top: 5px; /* Thêm khoảng cách giữa giá trị nhiệt độ và dòng chữ Real-time updated data */
+}
+
+/* Temperature bar container with labels */
+.bar-container-with-labels {
+  position: relative;
+  height: 100%;
+  width: 120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition: box-shadow 0.3s ease;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+/* Row for each label and segment */
+.bar-row {
+  display: flex;
+  align-items: center;
+  height: calc(100% / 6); /* Chia chiều cao đều cho 6 segment */
+}
+
+/* Labels for each segment */
+.bar-label {
+  width: 40px;
+  text-align: right;
+  margin-right: 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Temperature bar segments */
+.bar-segment {
+  flex: 1;
+  height: 100%;
+}
+
+/* Bar indicator styling */
+.bar-indicator {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+  transition: top 0.5s ease;
+}
+
+/* Color segments */
+.segment-40 {
+  background-color: rgba(255, 69, 0, 0.7);
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.segment-30 {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+.segment-20 {
+  background-color: rgba(255, 255, 102, 0.7);
+}
+
+.segment-10 {
+  background-color: rgba(64, 224, 208, 0.7);
+}
+
+.segment-5 {
+  background-color: rgba(0, 255, 255, 0.7);
+}
+
+.segment-0 {
+  background-color: rgba(0, 191, 255, 0.7);
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+
+/* Neon Effect */
+.neon-red {
+  box-shadow: 0 0 20px rgba(255, 87, 87, 0.7);
+}
+
+.neon-orange {
+  box-shadow: 0 0 20px rgba(255, 182, 47, 0.7);
+}
+
+.neon-blue {
+  box-shadow: 0 0 20px rgba(28, 225, 255, 0.7);
+}
+
+.neon-green {
+  box-shadow: 0 0 20px rgba(4, 98, 7, 0.7);
+}
+
+.neon-purple {
+  box-shadow: 0 0 20px rgba(249, 64, 215, 0.7);
+}
+
+.temperature-value {
+  color: #000000;
+  font-size: 3em;
+  font-weight: bold;
+}
+.garage-container {
+  position: relative;
+  width: 100%; /* Chiều rộng container garage */
+  max-width: 800px; /* Giới hạn chiều rộng tối đa */
+  height: 450px; /* Chiều cao cố định */
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  border-radius: 15px;
+}
+
+.carousel {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-item {
+  flex: 0 0 100%; /* Mỗi item chiếm 100% chiều rộng của garage-container */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.carousel-item img {
+  max-width: 100%; /* Đảm bảo ảnh không tràn khỏi container */
+  height: auto;
+  object-fit: contain; /* Đảm bảo ảnh giữ đúng tỷ lệ */
+}
+
+.navigation {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+}
+
+.navigation button {
+  background-color: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  font-size: 24px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 50%;
+}

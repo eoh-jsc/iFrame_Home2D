@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartHome 2D - iFrame</title>
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+
+<body>
+  <div class="background-container">
+    <img src="assets/img/background.png" alt="background Container" class="background-container" />
+  </div>
+
+  <div class="overlay"></div>
+
+  <div class="menu-container active" id="menu">
+    <div class="image-container">
+      <img src="assets/img/3d-casual-life-office-building.png" alt="Menu Image" class="menu-image" />
+    </div>
+    <div class="menu-header">Welcome to Your Smart Home</div>
+    <div class="menu-description">
+      Choose the home layout you would like to explore:
+    </div>
+    <div class="menu-buttons">
+      <button class="menu-button" onclick="loadHouse('house1')">
+        Home 1
+      </button>
+      <button class="menu-button" onclick="loadHouse('house2')">
+        Home 2
+      </button>
+    </div>
+  </div>
+
+  <div class="house-container" id="house1">
+    <img src="assets/img/home-1-component.png" alt="House 1 Image" class="image" />
+
+    <div class="parameter temp">
+      <div class="text-box" id="tempBox">
+        Temp: <span id="temperature">--</span> °C
+      </div>
+    </div>
+    <div class="parameter humid">
+      <div class="text-box" id="humidBox">
+        Humidity: <span id="humidity">--</span> %
+      </div>
+    </div>
+    <div class="parameter power">
+      <div class="text-box" id="powerBox">
+        Power: <span id="power">--</span> kWh
+      </div>
+    </div>
+
+    <!-- Pop-up weather -->
+    <div class="weather-pop-up-container" id="weatherPopUpContainer">
+      <div class="weather-pop-up">
+        <button class="close-button" onclick="closeWeatherPopUp()">
+          &times;
+        </button>
+        <h3>HO CHI MINH</h3>
+        <div class="weather-left-container">
+          <div class="weather-temp" id="weatherTemp">23°C</div>
+          <div class="weather-back" id="weatherDesc">Light Rain</div>
+        </div>
+        <div class="weather-info">
+          <div class="weather-detail">
+            Humidity: <span id="weatherHumidity">88%</span>
+          </div>
+          <div class="weather-detail">
+            Wind: <span id="weatherWind">4.06 m/s</span>
+          </div>
+        </div>
+        <div class="forecast">
+          <div class="forecast-day">
+            <div>Saturday</div>
+            <img width="64" height="64" src="https://img.icons8.com/cute-clipart/64/cloud-lighting.png" alt="Icon" />
+            <div>20° / 25°</div>
+          </div>
+          <div class="forecast-day">
+            <div>Sunday</div>
+            <img width="94" height="94" src="https://img.icons8.com/3d-fluency/94/partly-cloudy-night.png" alt="Icon" />
+            <div>22° / 26°</div>
+          </div>
+          <div class="forecast-day">
+            <div>Monday</div>
+            <img width="64" height="64" src="https://img.icons8.com/cute-clipart/64/windsock.png" alt="Icon" />
+            <div>25° / 38°</div>
+          </div>
+          <div class="forecast-day">
+            <div>Tuesday</div>
+            <img width="64" height="64" src="https://img.icons8.com/cute-clipart/64/snow.png" alt="Icon" />
+            <div>20° / 27°</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pop-up-container" id="popUpContainer">
+    <div class="pop-up-table">
+      <button class="close-button" onclick="closePopUp()">&times;</button>
+      <h3>Statistics Table</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Working Days</th>
+            <th>Computers</th>
+            <th>Total Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Manager: Huynh Hau</td>
+            <td>5</td>
+            <td>Computer 1: 50kw</td>
+            <td id="total1">--</td>
+          </tr>
+          <tr>
+            <td>Fullstack: Canh Nguyen</td>
+            <td>5</td>
+            <td>Computer 2: 50kw</td>
+            <td id="total2">--</td>
+          </tr>
+          <tr>
+            <td>Dev: Dai Nguyen</td>
+            <td>5</td>
+            <td>Computer 3: 40kw</td>
+            <td id="total3">--</td>
+          </tr>
+          <tr>
+            <td>Firmware: Minh Quan</td>
+            <td>4</td>
+            <td>Computer 4: 30kw</td>
+            <td id="total4">--</td>
+          </tr>
+          <tr>
+            <td>Firmware: Thuan Hoang</td>
+            <td>4</td>
+            <td>Computer 5: 30kw</td>
+            <td id="total5">--</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="input-container">
+        <input type="number" id="pricePerKw" placeholder="Enter price per kWh" />
+        <button onclick="calculateTotal()">Calculate</button>
+        <button onclick="refreshTotal()">Refresh</button>
+        <!-- Nút Refresh -->
+      </div>
+    </div>
+  </div>
+
+  <div class="back-button-container">
+    <button class="back-button" onclick="goBackToMenu()">Back to Home</button>
+  </div>
+
+  <div class="light-button-container">
+    <button class="light-button" id="lightButton" onclick="toggleButton()">
+      Toggle Light
+    </button>
+  </div>
+
+  <!-- _________________________Home 2_____________________________ -->
+  <div class="house-container" id="house2">
+    <div class="overlay"></div>
+    <img src="assets/img/home2.jpg" alt="House 2 Image" class="image" />
+
+    <div class="back-button-container">
+      <button class="back-button" onclick="goBackToMenu()">
+        Back to Home
+      </button>
+    </div>
+
+    <!-- Menu button and dropdown -->
+    <div class="menu-container-dropdown">
+      <div class="menu-button-home2" onclick="toggleMenu()">
+        &#9776;
+        <!-- 3-line menu icon -->
+      </div>
+      <div id="menuDropdown" class="dropdown-content">
+        <a href="javascript:void(0)" onclick="showView('Temperature')">Temperature</a>
+        <a href="javascript:void(0)" onclick="showView('Garage')">Garage</a>
+      </div>
+    </div>
+
+    <div id="viewModal" class="modal-container">
+      <div class="modal-content">
+        <span class="close-button" onclick="closeView()">&times;</span>
+        <div id="viewContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const powerElement = document.getElementById("powerBox");
+      powerElement.addEventListener("click", function () {
+        showPopUp();
+      });
+    });
+
+    function showPopUp() {
+      document.getElementById("popUpContainer").style.display = "flex";
+    }
+
+    function closePopUp() {
+      document.getElementById("popUpContainer").style.display = "none";
+    }
+
+    function calculateTotal() {
+      const price = document.getElementById("pricePerKw").value;
+
+      const totals = [
+        { id: "total1", kw: 20, days: 5 },
+        { id: "total2", kw: 30, days: 5 },
+        { id: "total3", kw: 40, days: 5 },
+        { id: "total4", kw: 30, days: 4 },
+        { id: "total5", kw: 30, days: 4 },
+      ];
+
+      totals.forEach((total) => {
+        const amount = total.kw * total.days * price;
+        document.getElementById(total.id).textContent = amount
+          ? amount.toFixed(2) + " VND"
+          : "--";
+      });
+    }
+
+    function refreshTotal() {
+      const totals = ["total1", "total2", "total3", "total4", "total5"];
+
+      totals.forEach((id) => {
+        document.getElementById(id).textContent = "--"; // Làm mới các giá trị tiền tệ
+      });
+
+      document.getElementById("pricePerKw").value = ""; // Làm mới trường nhập liệu giá tiền
+    }
+
+    function loadHouse(houseId) {
+      document.getElementById("menu").classList.remove("active");
+
+      document.querySelector(".background-container").style.display = "none";
+      document.querySelector(".overlay").style.display = "none";
+
+      document.getElementById(houseId).classList.add("active");
+
+      if (houseId === "house1") {
+        document.querySelector(".light-button-container").style.display =
+          "block";
+        updateValues();
+        setInterval(updateValues, 2000);
+      }
+      //Ở Home2 : Ẩn button Toggle Light
+      else if (houseId === "house2") {
+        document.querySelector(".light-button-container").style.display =
+          "none";
+        document.querySelector(".menu-container-dropdown").style.display =
+          "block";
+      }
+
+      //Hiển thị nút go back khi ở trong các submenu : Home1 và Home2
+      document.querySelector(".back-button-container").style.display =
+        "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const humidElement = document.getElementById("humidBox");
+      humidElement.addEventListener("click", function () {
+        showWeatherPopUp();
+      });
+    });
+
+    function showWeatherPopUp() {
+      // Giả lập giá trị thời tiết hoặc sử dụng OpenWeatherMap API
+      document.getElementById("weatherTemp").textContent = "23°C"; // Nhiệt độ thực tế
+      document.getElementById("weatherHumidity").textContent = "88%"; // Độ ẩm thực tế
+      document.getElementById("weatherWind").textContent = "4.06 m/s"; // Tốc độ gió thực tế
+      document.getElementById("weatherDesc").textContent = "Light Rain"; // Mô tả thời tiết thực tế
+
+      document.getElementById("weatherPopUpContainer").style.display = "flex";
+    }
+
+    function closeWeatherPopUp() {
+      document.getElementById("weatherPopUpContainer").style.display = "none";
+    }
+
+    // Hàm giả lập giá trị ngẫu nhiên
+    function getRandomValue(min, max) {
+      return (Math.random() * (max - min) + min).toFixed(2);
+    }
+
+    function goBackToMenu() {
+      document.querySelectorAll(".house-container").forEach(function (el) {
+        el.classList.remove("active");
+      });
+
+      document.querySelector(".background-container").style.display = "block";
+      document.querySelector(".overlay").style.display = "block";
+
+      //Hiển thị menu
+      document.getElementById("menu").classList.add("active");
+    }
+
+    function getRandomValue(min, max) {
+      return (Math.random() * (max - min) + min).toFixed(2);
+    }
+
+    /*_________________________Home 2_________________________*/
+    function toggleMenu() {
+      var menu = document.getElementById("menuDropdown");
+      menu.style.display = menu.style.display === "block" ? "none" : "block";
+    }
+
+    function showView(view) {
+      var modal = document.getElementById("viewModal");
+      var viewContent = document.getElementById("viewContent");
+
+      //Làm sạch nội dung 
+      viewContent.innerHTML = "";
+      if (view === "Temperature") {
+        viewContent.innerHTML = `
+                <div class="widget">
+                    <div class="temperature-section">
+                        <h2>
+                            <img src="temperature.png" alt="icon" class="icon-temp">
+                            Temperature
+                        </h2>
+                        <div class="temperature-value" id="temperature-value">20.0 °C</div>
+                        <div class="temp-change" id="temp-change">Real-time updated data</div>
+                    </div>
+
+                    <div class="bar-container-with-labels">
+                        <div class="bar-row">
+                            <span class="bar-label">40°C</span>
+                            <div class="bar-segment segment-40"></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">30°C</span>
+                            <div class="bar-segment segment-30"></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">20°C</span>
+                            <div class="bar-segment segment-20"></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">10°C</span>
+                            <div class="bar-segment segment-10"></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">5°C</span>
+                            <div class="bar-segment segment-5"></div>
+                        </div>
+                        <div class="bar-row">
+                            <span class="bar-label">0°C</span>
+                            <div class="bar-segment segment-0"></div>
+                        </div>
+                        <div class="bar-indicator" id="bar-indicator"></div>
+                    </div>
+                </div>
+                `;
+      }
+
+      if (view === "Garage") {
+        viewContent.innerHTML = `
+                <div class="garage-container">
+                    <div class="carousel">
+                        <div class="carousel-item">
+                            <img src="assets/img/xe1.png" alt="Car Front View">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="assets/img/xe2.png" alt="Car Back View">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="assets/img/xe3.png" alt="Car Left Side View">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="assets/img/xe4.png" alt="Car Right Side View">
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <button id="prevButton">&#10094;</button>
+                        <button id="nextButton">&#10095;</button>
+                    </div>
+                </div>
+                `;
+
+        let currentIndex = 0;
+        const items = document.querySelectorAll(".carousel-item");
+        const totalItems = items.length;
+
+        document
+          .getElementById("nextButton")
+          .addEventListener("click", () => {
+            currentIndex = (currentIndex + 1) % totalItems; // Chuyển tới ảnh tiếp theo
+            updateCarousel();
+          });
+
+        document
+          .getElementById("prevButton")
+          .addEventListener("click", () => {
+            currentIndex = (currentIndex - 1 + totalItems) % totalItems; // Quay về ảnh trước
+            updateCarousel();
+          });
+
+        function updateCarousel() {
+          const offset = -currentIndex * 100; // Di chuyển mỗi ảnh theo 100% chiều rộng của container
+          document.querySelector(
+            ".carousel"
+          ).style.transform = `translateX(${offset}%)`;
+        }
+
+        updateCarousel();
+        modal.style.display = "flex";
+      }
+
+      // Hiển thị modal
+      modal.style.display = "flex";
+    }
+
+    //Function : Toggle Light khi nhấn Widget Button
+    function toggleLight() {
+      const houseContainer = document.getElementById("house1");
+      const lightButton = document.getElementById("lightButton");
+
+      if (statusLed) {
+        houseContainer.style.filter = "brightness(1)"; // Đặt lại độ sáng bình thường
+        lightButton.textContent = "Turn Off Light";
+        lightButton.classList.remove("off");
+        lightButton.classList.add("on");
+        lightButton.style.backgroundColor = "#32cd32"; // Đổi màu nút sang màu sáng khi đèn bật
+      } else {
+        houseContainer.style.filter = "brightness(0.15)"; // Giảm độ sáng trang
+        lightButton.textContent = "Turn On Light";
+        lightButton.classList.remove("on");
+        lightButton.classList.add("off");
+        lightButton.style.backgroundColor = "#555"; // Đổi màu nút sang màu tối khi đèn tắt
+      }
+    }
+
+    function updateTemperature() {
+      const temperatureElement = document.getElementById("temperature");
+      const temperatureVal = document.getElementById("temperature-value");
+      const barIndicator = document.getElementById("bar-indicator");
+      const barContainer = document.querySelector(
+        ".bar-container-with-labels"
+      );
+
+      //Cập nhật nhiệt độ theo giá trị nhiệt độ mới
+      temperatureElement.innerHTML = `${tempValue} °C`;
+      temperatureVal.innerHTML = `${tempValue} °C`; // Cập nhật giá trị nhiệt độ cho temperature-value
+
+      const tempPercent = ((tempValue - 30) / (40 - 30)) * 100;
+      barIndicator.style.top = 100 - tempValue + "%";
+
+      barContainer.classList.remove(
+        "neon-red",
+        "neon-orange",
+        "neon-blue",
+        "neon-green",
+        "neon-purple"
+      );
+
+      //Tạo hiệu ứng Neon
+      if (tempValue >= 30) {
+        barContainer.classList.add("neon-red");
+      } else if (tempValue >= 20) {
+        barContainer.classList.add("neon-orange");
+      } else if (tempValue >= 10) {
+        barContainer.classList.add("neon-blue");
+      } else if (tempValue >= 5) {
+        barContainer.classList.add("neon-green");
+      } else {
+        barContainer.classList.add("neon-purple");
+      }
+    }
+
+    function getRandomTemperature(min, max) {
+      return (Math.random() * (max - min) + min).toFixed(1);
+    }
+
+    function getRandomTemperature(min, max) {
+      return (Math.random() * (max - min) + min).toFixed(1);
+    }
+    function closeView() {
+      var modal = document.getElementById("viewModal");
+      modal.style.display = "none";
+    }
+  </script>
+
+  <script src="https://www.unpkg.com/@eohjsc/era-widget@1.1.3/src/index.js"></script>
+  <script>
+    const eraWidget = new EraWidget();
+
+    // Lấy các phần tử HTML dựa trên ID, liên kết với giao diện người dùng
+    const temp = document.getElementById("temperature");
+    const humi = document.getElementById("humidity");
+    const power = document.getElementById("power");
+    const light = document.getElementById("light");
+
+    let configTemp = null,
+      configHumi = null,
+      configPower = null,
+      configLight = null,
+      actionOn = null,
+      actionOff = null,
+      statusLed = null;
+
+    eraWidget.init({
+      onConfiguration: (configuration) => {
+        // Lưu các cấu hình khi nhận được từ widget
+        configTemp = configuration.realtime_configs[0]; // Lưu cấu hình nhiệt độ
+        configHumi = configuration.realtime_configs[1]; // Lưu cấu hình độ ẩm
+        configPower = configuration.realtime_configs[2]; // Lưu cấu hình power
+        configLight = configuration.realtime_configs[3]; // Lưu cấu hình toggle light
+        actionOn = configuration.actions[0]; // Lưu cấu hình hành động : On
+        actionOff = configuration.actions[1]; // Lưu cấu hình hành động : Off
+      },
+
+      // Hàm lấy giá trị từ các ID và cập nhật giao diện
+      onValues: (values) => {
+        const humidValue = values[configHumi.id].value;
+        const powerValue = values[configPower.id].value;
+        const lightValue = values[configLight.id].value;
+        const tempValue = values[configTemp.id].value;
+
+        humi.textContent = humidValue; // Cập nhật giá trị độ ẩm
+        temp.textContent = tempValue; // Cập nhật giá trị nhiệt độ
+        power.textContent = powerValue; // Cập nhật giá trị công suất tiêu thụ
+
+        // Kiểm tra nếu giá trị khác với trạng thái hiện tại của đèn thì điều khiển đèn
+        if (statusLed !== lightValue) {
+          statusLed = lightValue;
+          toggleLight();
+        }
+      },
+    });
+
+    //Function: Đảo trạng thái nút nhấn (Widget E-Ra) khi click button trong iFrame
+    function toggleButton() {
+      if (statusLed == 0) {
+        eraWidget.triggerAction(actionOn.action, null);
+      } else {
+        eraWidget.triggerAction(actionOff.action, null);
+      }
+    }
+  </script>
+</body>
+
+</html>
